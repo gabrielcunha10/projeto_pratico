@@ -9,6 +9,7 @@ while inicio != "COMEÇAR":
         erros = 0
         tentativas = 5
         letras_usadas = set()
+        print(" ".join(acertos))
         while erros < tentativas and "_" in acertos:
             letra = str(input('\nDigite uma letra ou tente acertar a palavra (SE ERRAR A TENTATIVA DE ESCREVER A PALAVRA, VOCÊ PERDE!).\nCaso queira receber uma dica, digite "DICA":\n'))
             
