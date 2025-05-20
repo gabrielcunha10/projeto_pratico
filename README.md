@@ -1,6 +1,3 @@
-<<<<<<< Updated upstream
-# Projeto_Pratico
-=======
 ## 👥 Integrantes da Dupla
 - Nome: Gabriel da Cunha Prudencio RGM:43447287
 - Nome:                            RGM:
@@ -52,4 +49,3 @@
 --------------------------------------------------------------------------------------------------
 ## 📁 Repositório do código-fonte
 🔗 GitHub: https://github.com/gabrielcunha10/projeto_pratico
->>>>>>> Stashed changes
