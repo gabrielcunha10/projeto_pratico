@@ -1,55 +1,160 @@
+# Auto detect text files and perform LF normalization
+* text=auto
+import random
+
+# ---------------------- LISTAS DE PALAVRAS POR NÍVEL -------------------------
+facil = ["php", "sql", "java", "html", "ruby", "perl", "bash", "css", "c", "r"]
+medio = ["python", "golang", "kotlin", "csharp", "shell", "scala", "groovy", "swift"]
+dificil = ["typescript", "javascript", "objectivec", "assembly", "fortran", "visualbasic", "matlab", "cobol", "powershell", "delphi"]
+
+# ---------------------- DESENHO DA FORCA --------------------------------------
+forca = [
+    """
+     ------
+     |    |
+          |
+          |
+          |
+          |
+    =========
+    """,
+    """
+     ------
+     |    |
+     O    |
+          |
+          |
+          |
+    =========
+    """,
+    """
+     ------
+     |    |
+     O    |
+     |    |
+          |
+          |
+    =========
+    """,
+    """
+     ------
+     |    |
+     O    |
+    /|    |
+          |
+          |
+    =========
+    """,
+    """
+     ------
+     |    |
+     O    |
+    /|\\   |
+          |
+          |
+    =========
+    """,
+    """
+     ------
+     |    |
+     O    |
+    /|\\   |
+    /     |
+          |
+    =========
+    """,
+    """
+     ------
+     |    |
+     O    |
+    /|\\   |
+    / \\   |
+          |
+    =========
+    """
+]
+
+# ---------------------- INÍCIO DO JOGO ----------------------------------------
 jogando = True
 while jogando:
-    inicio = "x"
-    while inicio != "COMEÇAR":
-        inicio = input('Bem-vindo ao jogo da forca, digite "COMEÇAR" para iniciar o jogo.\n').upper()
-        if inicio == "COMEÇAR":
-            import random
-            palavras = ["python","java","javascript","php","sql"]
-            palavra = random.choice(palavras).upper()
-            acertos = ["_"] * len(palavra)
-            erros = 0
-            tentativas = 5
-            letras_usadas = set()
-            print(" ".join(acertos))
-            while erros < tentativas and "_" in acertos:
-                letra = str(input('\nDigite uma letra ou tente acertar a palavra (SE ERRAR A TENTATIVA DE ESCREVER A PALAVRA, VOCÊ PERDE!).\nCaso queira receber uma dica, digite "DICA":\n'))                    
-                if "DICA" in letra.upper():
-                    print(" ".join(acertos))
-                    print("\nÉ uma linguagem de programação!")
-                    continue
+    inicio = input('Bem-vindo ao jogo da forca! Digite "COMEÇAR" para iniciar:\n').strip().upper()
+    if inicio != "COMEÇAR":
+        print('Digite corretamente "COMEÇAR" para iniciar.')
+        continue
 
-                elif len(letra) > 1 and letra.upper() == palavra:
-                    break
+    # Escolher nível
+    nivel = ""
+    while nivel not in ["1", "2", "3"]:
+        nivel = input('Escolha a dificuldade:\n1 - Fácil\n2 - Médio\n3 - Difícil\n')
+        if nivel not in ["1", "2", "3"]:
+            print("Opção inválida. Tente novamente.")
 
-                elif len (letra) > 1 and letra.upper() != palavra:
-                    break  
+    if nivel == "1":
+        palavras = facil
+        tentativas = 6
+    elif nivel == "2":
+        palavras = medio
+        tentativas = 5
+    else:
+        palavras = dificil
+        tentativas = 4
 
-                if letra in letras_usadas:
-                    print("Você ja utilizou essa letra! Tente novamente.")
-                    continue
+    palavra = random.choice(palavras).upper()
+    acertos = ["_"] * len(palavra)
+    letras_usadas = set()
+    erros = 0
+    pontos = 0
 
-                letras_usadas.add(letra.upper())
-                if letra.upper() in palavra:
-                    for i in range(len(palavra)):
-                        if palavra[i] == letra.upper():
-                            acertos[i] = letra.upper()
-                else:
-                    erros+=1
-                    print(f"Letra errada! Tente novamente. ({tentativas - erros} Restantes)")  
-                print("Letras usadas:",", ".join(letras_usadas))                    
-                print(" ".join(acertos))
+    print("\nPalavra: " + " ".join(acertos))
 
-            if "_" not in acertos or letra.upper() == palavra:
-                    print("Parabéns, você acertou a palavra corretamente!")
+    while erros < tentativas and "_" in acertos:
+        print(forca[erros])
+        entrada = input('\nDigite uma letra ou a palavra inteira. Para dica, digite "DICA":\n').strip().upper()
+
+        if entrada == "DICA":
+            print("💡 Dica: É uma linguagem de programação!")
+            continue
+
+        if len(entrada) > 1:
+            if entrada == palavra:
+                acertos = list(palavra)
+                pontos += 50  # bônus
+                break
             else:
-                    print(f"Você perdeu! A palavra era:", palavra.upper())
+                print("Palavra errada! Você perdeu o jogo.")
+                erros = tentativas
+                break
 
-            continuacao = input('Caso deseje jogar novamente, digite "S", se não digite "N":\n').upper()
-            if continuacao == "S":
-                continue
-            elif continuacao == "N":
-                print("Jogo encerrado.")
-                jogando = False
+        if entrada in letras_usadas:
+            print("Você já usou essa letra!")
+            continue
+
+        letras_usadas.add(entrada)
+
+        if entrada in palavra:
+            for i in range(len(palavra)):
+                if palavra[i] == entrada:
+                    acertos[i] = entrada
+            pontos += 10
+            print(f"✅ Letra correta! Pontos: {pontos}")
         else:
-            print('Verifique se está digitando "COMEÇAR" corretamente.')
+            erros += 1
+            print(f"❌ Letra errada! Tentativas restantes: {tentativas - erros}")
+
+        print("Letras usadas:", ", ".join(sorted(letras_usadas)))
+        print("Palavra: " + " ".join(acertos))
+
+    # Resultado
+    if "_" not in acertos:
+        print("\n🎉 Parabéns! Você acertou a palavra:", palavra)
+    else:
+        print(forca[erros])
+        print(f"\n❌ Você perdeu! A palavra era: {palavra}")
+
+    print(f"🏅 Pontuação final: {pontos} pontos")
+
+    # Jogar novamente
+    continuar = input('\nDeseja jogar novamente? (S/N):\n').strip().upper()
+    if continuar != "S":
+        print("Obrigado por jogar! Até a próxima.")
+        jogando = False
