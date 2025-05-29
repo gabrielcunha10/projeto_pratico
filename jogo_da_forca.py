@@ -1,5 +1,4 @@
-# Auto detect text files and perform LF normalization
-* text=auto
+
 import random
 
 # ---------------------- LISTAS DE PALAVRAS POR NÍVEL -------------------------
@@ -95,7 +94,7 @@ while jogando:
     elif nivel == "2":
         palavras = medio
         tentativas = 5
-    else:
+    elif nivel == "3":
         palavras = dificil
         tentativas = 4
 
