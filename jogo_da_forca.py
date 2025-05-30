@@ -1,12 +1,12 @@
 
 import random
 
-# ---------------------- LISTAS DE PALAVRAS POR NÍVEL -------------------------
+
 facil = ["php", "sql", "java", "html", "ruby", "perl", "bash", "css", "c", "r"]
 medio = ["python", "golang", "kotlin", "csharp", "shell", "scala", "groovy", "swift"]
 dificil = ["typescript", "javascript", "objectivec", "assembly", "fortran", "visualbasic", "matlab", "cobol", "powershell", "delphi"]
 
-# ---------------------- DESENHO DA FORCA --------------------------------------
+
 forca = [
     """
      ------
@@ -73,7 +73,7 @@ forca = [
     """
 ]
 
-# ---------------------- INÍCIO DO JOGO ----------------------------------------
+
 jogando = True
 while jogando:
     inicio = input('Bem-vindo ao jogo da forca! Digite "COMEÇAR" para iniciar:\n').strip().upper()
@@ -81,7 +81,6 @@ while jogando:
         print('Digite corretamente "COMEÇAR" para iniciar.')
         continue
 
-    # Escolher nível
     nivel = ""
     while nivel not in ["1", "2", "3"]:
         nivel = input('Escolha a dificuldade:\n1 - Fácil\n2 - Médio\n3 - Difícil\n')
@@ -143,7 +142,6 @@ while jogando:
         print("Letras usadas:", ", ".join(sorted(letras_usadas)))
         print("Palavra: " + " ".join(acertos))
 
-    # Resultado
     if "_" not in acertos:
         print("\n🎉 Parabéns! Você acertou a palavra:", palavra)
     else:
@@ -152,7 +150,6 @@ while jogando:
 
     print(f"🏅 Pontuação final: {pontos} pontos")
 
-    # Jogar novamente
     continuar = input('\nDeseja jogar novamente? (S/N):\n').strip().upper()
     if continuar != "S":
         print("Obrigado por jogar! Até a próxima.")
